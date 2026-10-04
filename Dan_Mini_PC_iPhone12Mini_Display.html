@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Dan Mini-PC">
+<title>Dan Mini-PC</title>
+<style>
+:root{--bg:#090b10;--panel:#171b25;--panel2:#222837;--text:#f6f7fb;--muted:#aeb6c7;--accent:#6da8ff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{min-height:100svh;padding:max(8px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:8px}
+header{height:54px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex:0 0 auto}
+.brand{font-size:24px;font-weight:800;letter-spacing:-.04em;white-space:nowrap}.sub{color:var(--muted);font-size:11px;margin-top:1px}.clock{text-align:right;white-space:nowrap}.time{font-size:25px;font-weight:750;line-height:1}.date{color:var(--muted);font-size:10px;margin-top:3px}
+main{min-height:0;flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:8px}
+.tile{min-width:0;min-height:0;border-radius:16px;background:linear-gradient(145deg,var(--panel2),var(--panel));color:var(--text);text-decoration:none;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(255,255,255,.09);box-shadow:0 5px 16px rgba(0,0,0,.2)}
+.tile:active{transform:scale(.98);border-color:var(--accent)}.icon{font-size:24px;line-height:1}.label{font-size:17px;font-weight:750;line-height:1.05}.hint{color:var(--muted);font-size:10px;margin-top:3px}
+footer{height:25px;display:flex;justify-content:center;align-items:center;flex:0 0 auto}.dock{color:var(--muted);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* iPhone 12 mini portrait fallback */
+@media (orientation:portrait){body{overflow:auto;padding:18px 16px}.sub{font-size:12px}header{height:auto;margin-bottom:6px}.brand{font-size:25px}.time{font-size:26px}main{grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:145px}.tile{padding:16px}.icon{font-size:30px}.label{font-size:20px}.hint{font-size:12px}footer{height:auto;padding:8px 0}.dock{white-space:normal;text-align:center;font-size:11px}}
+</style>
+</head>
+<body>
+<header>
+ <div><div class="brand">Dan Mini-PC</div><div class="sub">iPhone 12 mini · HDMI Desktop</div></div>
+ <div class="clock"><div class="time" id="time">--:--</div><div class="date" id="date"></div></div>
+</header>
+<main>
+ <a class="tile" href="https://chatgpt.com/"><div class="icon">✦</div><div><div class="label">ChatGPT</div><div class="hint">Chat & Projekte</div></div></a>
+ <a class="tile" href="https://www.youtube.com/"><div class="icon">▶</div><div><div class="label">YouTube</div><div class="hint">Videos</div></div></a>
+ <a class="tile" href="https://www.microsoft365.com/"><div class="icon">W</div><div><div class="label">Microsoft 365</div><div class="hint">Word & Office</div></div></a>
+ <a class="tile" href="https://drive.google.com/"><div class="icon">△</div><div><div class="label">Google Drive</div><div class="hint">Dateien & Schule</div></div></a>
+ <a class="tile" href="https://mail.google.com/"><div class="icon">✉</div><div><div class="label">Gmail</div><div class="hint">E-Mail</div></div></a>
+ <a class="tile" href="https://www.google.com/"><div class="icon">⌕</div><div><div class="label">Google</div><div class="hint">Websuche</div></div></a>
+</main>
+<footer><div class="dock">Für das eingebaute Display: iPhone quer drehen</div></footer>
+<script>
+function tick(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'});document.getElementById('date').textContent=d.toLocaleDateString('de-CH',{weekday:'short',day:'2-digit',month:'2-digit'});}tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
