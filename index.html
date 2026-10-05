@@ -208,8 +208,7 @@ body.wall-soft #app{
   min-height:105px;
   padding:12px;
   border-radius:var(--radius);
-  background:
-    linear-gradient(145deg,var(--panel2),var(--panel));
+  background:linear-gradient(145deg,var(--panel2),var(--panel));
   border:1px solid rgba(255,255,255,.11);
   box-shadow:
     0 10px 28px rgba(0,0,0,.22),
@@ -256,8 +255,6 @@ body.wall-soft #app{
   font-size:9px;
   color:var(--muted);
 }
-
-/* SHP */
 
 .shp{
   border-color:color-mix(in srgb,var(--accent) 48%,transparent);
@@ -311,6 +308,10 @@ body.wall-soft #app{
   transform:scale(.88);
 }
 
+.dock .home-button{
+  background:color-mix(in srgb,var(--accent) 30%,rgba(255,255,255,.06));
+}
+
 /* SETTINGS */
 
 .panel{
@@ -345,10 +346,6 @@ body.wall-soft #app{
   border-radius:11px;
   padding:8px 11px;
   font-weight:750;
-}
-
-.choice.active{
-  outline:2px solid var(--accent);
 }
 
 .color{
@@ -402,6 +399,7 @@ input[type="range"]{
 /* RESPONSIVE */
 
 @media (orientation:portrait){
+
   .grid{
     grid-template-columns:repeat(2,1fr);
   }
@@ -420,6 +418,7 @@ input[type="range"]{
 }
 
 @media (orientation:landscape) and (max-height:500px){
+
   #app{
     padding-top:max(5px,env(safe-area-inset-top));
   }
@@ -476,197 +475,298 @@ input[type="range"]{
 <section class="page active" id="home">
 
   <div class="topbar">
-    <div class="brand">Dan Mini-PC</div>
-    <div class="clock">
-      <div class="time" id="time">--:--</div>
-      <div class="date" id="date"></div>
+
+    <div class="brand">
+      Dan Mini-PC
     </div>
+
+    <div class="clock">
+
+      <div class="time"
+           id="time">
+        --:--
+      </div>
+
+      <div class="date"
+           id="date">
+      </div>
+
+    </div>
+
   </div>
+
+  <!-- einzige Google-Suche -->
 
   <form class="search"
         action="https://www.google.com/search"
-        method="get">
-    <input name="q" placeholder="Google durchsuchen …">
-    <button type="submit">Suchen</button>
+        method="get"
+        target="_blank">
+
+    <input name="q"
+           placeholder="Google durchsuchen …">
+
+    <button type="submit">
+      Suchen
+    </button>
+
   </form>
 
   <div class="grid">
 
     <a class="tile"
        href="https://chatgpt.com/">
+
       <div class="icon">✦</div>
+
       <div>
         <div class="label">ChatGPT</div>
         <div class="hint">Chat & Projekte</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://m.youtube.com/?app=desktop">
+
       <div class="icon">▶</div>
+
       <div>
         <div class="label">YouTube</div>
         <div class="hint">Videos</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://www.microsoft365.com/">
+
       <div class="icon">W</div>
+
       <div>
         <div class="label">Microsoft 365</div>
         <div class="hint">Word & Office</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://drive.google.com/">
+
       <div class="icon">△</div>
+
       <div>
         <div class="label">Google Drive</div>
         <div class="hint">Dateien & Schule</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://outlook.office.com/mail/">
+
       <div class="icon">📧</div>
+
       <div>
         <div class="label">Outlook</div>
         <div class="hint">E-Mail</div>
       </div>
+
     </a>
+
 
     <a class="tile shp"
        href="https://script.google.com/macros/s/AKfycbz3dAi2l4XLcjGeOPDhcJxh5zmUONNB0zqQJCHi-LbgNQn6Bvb1RL3wwx7WzVRCkHXv/exec">
+
       <div class="icon">🏫</div>
+
       <div>
         <div class="label">SHP Cockpit</div>
         <div class="hint">Gartenstrasse</div>
       </div>
+
     </a>
 
-    <a class="tile"
+
+    <a class="tile internal"
        href="#settings"
-       onclick="showPage('settings')">
+       onclick="showPage('settings');return false;">
+
       <div class="icon">⚙</div>
+
       <div>
         <div class="label">Einstellungen</div>
         <div class="hint">Design & Anzeige</div>
       </div>
+
     </a>
 
-    <a class="tile"
+
+    <a class="tile internal"
        href="#more"
-       onclick="showPage('more')">
+       onclick="showPage('more');return false;">
+
       <div class="icon">•••</div>
+
       <div>
         <div class="label">Mehr …</div>
         <div class="hint">Weitere Apps</div>
       </div>
+
     </a>
 
   </div>
+
 </section>
 
+
 <!-- MEHR -->
-<section class="page" id="more">
+<section class="page"
+         id="more">
 
   <div class="pagehead">
+
     <h2>Mehr</h2>
-    <a class="back"
+
+    <a class="back internal"
        href="#home"
-       onclick="showPage('home')">⌂ Home</a>
+       onclick="showPage('home');return false;">
+      ⌂ Home
+    </a>
+
   </div>
 
   <div class="grid">
 
     <a class="tile"
        href="https://docs.arduino.cc/">
+
       <div class="icon">🔧</div>
+
       <div>
         <div class="label">MINT / ESP32</div>
         <div class="hint">Arduino</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://maps.google.com/">
+
       <div class="icon">🗺</div>
+
       <div>
         <div class="label">Maps</div>
         <div class="hint">Karten</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://www.meteoschweiz.admin.ch/">
+
       <div class="icon">🌤</div>
+
       <div>
         <div class="label">Wetter</div>
         <div class="hint">MeteoSchweiz</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://open.spotify.com/">
+
       <div class="icon">🎧</div>
+
       <div>
         <div class="label">Spotify</div>
         <div class="hint">Musik</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://www.srf.ch/play">
+
       <div class="icon">📺</div>
+
       <div>
         <div class="label">SRF</div>
         <div class="hint">TV & Radio</div>
       </div>
+
     </a>
+
 
     <a class="tile"
        href="https://cad.onshape.com/">
+
       <div class="icon">🧊</div>
+
       <div>
         <div class="label">Onshape</div>
         <div class="hint">CAD</div>
       </div>
+
     </a>
 
   </div>
+
 </section>
 
+
 <!-- EINSTELLUNGEN -->
-<section class="page" id="settings">
+<section class="page"
+         id="settings">
 
   <div class="pagehead">
+
     <h2>Einstellungen</h2>
-    <a class="back"
+
+    <a class="back internal"
        href="#home"
-       onclick="showPage('home')">⌂ Home</a>
+       onclick="showPage('home');return false;">
+      ⌂ Home
+    </a>
+
   </div>
+
 
   <div class="panel">
 
     <div class="setting">
+
       <strong>🌙 Design</strong>
+
       <div class="controls">
+
         <button class="choice"
-                onclick="setTheme('dark',this)">
+                onclick="setTheme('dark')">
           Dunkel
         </button>
 
         <button class="choice"
-                onclick="setTheme('light',this)">
+                onclick="setTheme('light')">
           Hell
         </button>
+
       </div>
+
     </div>
 
+
     <div class="setting">
+
       <strong>🎨 Akzentfarbe</strong>
+
       <div class="controls">
 
         <button class="color"
@@ -690,10 +790,14 @@ input[type="range"]{
         </button>
 
       </div>
+
     </div>
 
+
     <div class="setting">
+
       <strong>▦ Kachelgröße</strong>
+
       <div class="controls">
 
         <button class="choice"
@@ -712,10 +816,14 @@ input[type="range"]{
         </button>
 
       </div>
+
     </div>
 
+
     <div class="setting">
+
       <strong>▢ Kachelecken</strong>
+
       <div class="controls">
 
         <button class="choice"
@@ -734,10 +842,14 @@ input[type="range"]{
         </button>
 
       </div>
+
     </div>
 
+
     <div class="setting">
+
       <strong>🖼 Hintergrund</strong>
+
       <div class="controls">
 
         <button class="choice"
@@ -756,25 +868,39 @@ input[type="range"]{
         </button>
 
       </div>
+
     </div>
 
   </div>
+
 </section>
 
+
 <!-- KONTROLLZENTRUM -->
-<section class="page" id="control">
+<section class="page"
+         id="control">
 
   <div class="pagehead">
+
     <h2>Kontrollzentrum</h2>
-    <a class="back"
+
+    <a class="back internal"
        href="#home"
-       onclick="showPage('home')">⌂ Home</a>
+       onclick="showPage('home');return false;">
+      ⌂ Home
+    </a>
+
   </div>
+
 
   <div class="controlgrid">
 
+
     <div class="control wide">
-      <div class="control-title">☀️ Oberfläche</div>
+
+      <div class="control-title">
+        ☀️ Oberfläche
+      </div>
 
       <div class="control-text">
         Helligkeit der Mini-PC-Oberfläche
@@ -785,30 +911,46 @@ input[type="range"]{
              min="45"
              max="115"
              value="100">
+
     </div>
 
+
     <div class="control">
-      <div class="control-title">🔊 Lautstärke</div>
+
+      <div class="control-title">
+        🔊 Lautstärke
+      </div>
 
       <div class="control-text">
-        Die Systemlautstärke wird über die
-        iPhone-Lautstärketasten geregelt.
+        Die echte iPhone-Lautstärke wird über
+        die Lautstärketasten geregelt.
       </div>
+
     </div>
 
+
     <div class="control">
-      <div class="control-title">📱 Displayhelligkeit</div>
+
+      <div class="control-title">
+        📱 Displayhelligkeit
+      </div>
 
       <div class="control-text">
-        Die echte iPhone-Helligkeit wird weiterhin
-        über das iOS-Kontrollzentrum geregelt.
+        Die echte Displayhelligkeit wird über
+        das iOS-Kontrollzentrum geregelt.
       </div>
+
     </div>
 
+
     <div class="control">
-      <div class="control-title">🌓 Darstellung</div>
+
+      <div class="control-title">
+        🌓 Darstellung
+      </div>
 
       <div class="controls">
+
         <button class="choice"
                 onclick="setTheme('dark')">
           Dunkel
@@ -818,13 +960,20 @@ input[type="range"]{
                 onclick="setTheme('light')">
           Hell
         </button>
+
       </div>
+
     </div>
 
+
     <div class="control">
-      <div class="control-title">🎨 Farbe</div>
+
+      <div class="control-title">
+        🎨 Farbe
+      </div>
 
       <div class="controls">
+
         <button class="color"
                 style="background:#6da8ff"
                 onclick="setAccent('#6da8ff')">
@@ -839,62 +988,129 @@ input[type="range"]{
                 style="background:#b78cff"
                 onclick="setAccent('#b78cff')">
         </button>
+
       </div>
+
     </div>
 
   </div>
+
 </section>
 
 </div>
 
+
 <!-- DOCK -->
 <nav class="dock">
 
+  <!-- NEU: Home bleibt immer im Mini-PC -->
+
+  <a class="home-button internal"
+     href="#home"
+     title="Mini-PC Home"
+     onclick="showPage('home');return false;">
+    ⌂
+  </a>
+
+
   <a href="https://www.icloud.com/"
-     title="Dateien">📁</a>
+     title="Dateien">
+    📁
+  </a>
+
 
   <a href="https://www.icloud.com/notes/"
-     title="Notizen">📝</a>
+     title="Notizen">
+    📝
+  </a>
+
 
   <a href="https://outlook.office.com/calendar/"
-     title="Outlook Kalender">🗓</a>
+     title="Outlook Kalender">
+    🗓
+  </a>
+
 
   <a href="https://radio.garden/"
-     title="Radio">📻</a>
+     title="Radio">
+    📻
+  </a>
+
 
   <a href="https://makerworld.com/"
-     title="3D-Druck">🖨</a>
+     title="3D-Druck">
+    🖨
+  </a>
 
-  <a href="#control"
+
+  <a class="internal"
+     href="#control"
      title="Kontrollzentrum"
-     onclick="showPage('control')">🎛</a>
+     onclick="showPage('control');return false;">
+    🎛
+  </a>
 
 </nav>
 
+
 <script>
+
+/* interne Seiten */
+
 function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>{
-    p.classList.remove('active');
-  });
 
-  const page=document.getElementById(id);
+  document
+    .querySelectorAll('.page')
+    .forEach(function(page){
 
-  if(page){
-    page.classList.add('active');
-    window.scrollTo(0,0);
-  }
-}
+      page.classList.remove('active');
 
-function clock(){
-  const d=new Date();
+    });
 
-  document.getElementById('time').textContent=
-    d.toLocaleTimeString(
-      'de-CH',
-      {hour:'2-digit',minute:'2-digit'}
+
+  const target =
+    document.getElementById(id);
+
+
+  if(target){
+
+    target.classList.add('active');
+
+    history.replaceState(
+      null,
+      '',
+      '#'+id
     );
 
-  document.getElementById('date').textContent=
+    window.scrollTo(0,0);
+
+  }
+
+}
+
+
+/* Uhr */
+
+function clock(){
+
+  const d=new Date();
+
+
+  document
+    .getElementById('time')
+    .textContent =
+    d.toLocaleTimeString(
+      'de-CH',
+      {
+        hour:'2-digit',
+        minute:'2-digit'
+      }
+    );
+
+
+  document
+    .getElementById('date')
+    .textContent =
     d.toLocaleDateString(
       'de-CH',
       {
@@ -903,12 +1119,21 @@ function clock(){
         month:'2-digit'
       }
     );
+
 }
 
 clock();
-setInterval(clock,1000);
+
+setInterval(
+  clock,
+  1000
+);
+
+
+/* Design */
 
 function setTheme(theme){
+
   document.body.classList.toggle(
     'light',
     theme==='light'
@@ -918,140 +1143,201 @@ function setTheme(theme){
     'dan-theme',
     theme
   );
+
 }
 
+
 function setAccent(color){
-  document.documentElement.style.setProperty(
-    '--accent',
-    color
-  );
+
+  document.documentElement
+    .style
+    .setProperty(
+      '--accent',
+      color
+    );
 
   localStorage.setItem(
     'dan-accent',
     color
   );
+
 }
 
+
 function setSize(size){
+
   document.body.classList.remove(
     'compact',
     'large'
   );
 
   if(size==='compact'){
-    document.body.classList.add('compact');
+    document.body.classList.add(
+      'compact'
+    );
   }
 
   if(size==='large'){
-    document.body.classList.add('large');
+    document.body.classList.add(
+      'large'
+    );
   }
 
   localStorage.setItem(
     'dan-size',
     size
   );
+
 }
 
+
 function setShape(shape){
+
   document.body.classList.remove(
     'square',
     'round'
   );
 
   if(shape==='square'){
-    document.body.classList.add('square');
+    document.body.classList.add(
+      'square'
+    );
   }
 
   if(shape==='round'){
-    document.body.classList.add('round');
+    document.body.classList.add(
+      'round'
+    );
   }
 
   localStorage.setItem(
     'dan-shape',
     shape
   );
+
 }
 
+
 function setWall(wall){
+
   document.body.classList.remove(
     'wall-black',
     'wall-soft'
   );
 
   if(wall==='black'){
-    document.body.classList.add('wall-black');
+    document.body.classList.add(
+      'wall-black'
+    );
   }
 
   if(wall==='soft'){
-    document.body.classList.add('wall-soft');
+    document.body.classList.add(
+      'wall-soft'
+    );
   }
 
   localStorage.setItem(
     'dan-wall',
     wall
   );
+
 }
 
-const brightness=
-  document.getElementById('brightness');
+
+/* Oberflächenhelligkeit */
+
+const brightness =
+  document.getElementById(
+    'brightness'
+  );
+
 
 brightness.addEventListener(
   'input',
   function(){
 
-    const value=
-      Number(this.value)/100;
+    const value =
+      Number(this.value) / 100;
 
-    document.getElementById('app')
-      .style.filter=
-      'brightness('+value+')';
+
+    document
+      .getElementById('app')
+      .style
+      .filter =
+      'brightness('+
+      value+
+      ')';
+
 
     localStorage.setItem(
       'dan-brightness',
       this.value
     );
+
   }
 );
 
-/* gespeicherte Einstellungen laden */
+
+/* gespeicherte Einstellungen */
 
 setTheme(
-  localStorage.getItem('dan-theme')
-  ||'dark'
+  localStorage.getItem(
+    'dan-theme'
+  ) || 'dark'
 );
+
 
 setAccent(
-  localStorage.getItem('dan-accent')
-  ||'#6da8ff'
+  localStorage.getItem(
+    'dan-accent'
+  ) || '#6da8ff'
 );
+
 
 setSize(
-  localStorage.getItem('dan-size')
-  ||'normal'
+  localStorage.getItem(
+    'dan-size'
+  ) || 'normal'
 );
+
 
 setShape(
-  localStorage.getItem('dan-shape')
-  ||'normal'
+  localStorage.getItem(
+    'dan-shape'
+  ) || 'normal'
 );
+
 
 setWall(
-  localStorage.getItem('dan-wall')
-  ||'glow'
+  localStorage.getItem(
+    'dan-wall'
+  ) || 'glow'
 );
 
-const savedBrightness=
-  localStorage.getItem('dan-brightness');
+
+const savedBrightness =
+  localStorage.getItem(
+    'dan-brightness'
+  );
+
 
 if(savedBrightness){
-  brightness.value=savedBrightness;
 
-  document.getElementById('app')
-    .style.filter=
+  brightness.value =
+    savedBrightness;
+
+
+  document
+    .getElementById('app')
+    .style
+    .filter =
     'brightness('+
-    (Number(savedBrightness)/100)
-    +')';
+    (Number(savedBrightness)/100)+
+    ')';
+
 }
+
 
 /* interne #Links */
 
@@ -1059,8 +1345,12 @@ window.addEventListener(
   'hashchange',
   function(){
 
-    const id=
-      location.hash.replace('#','');
+    const id =
+      location.hash.replace(
+        '#',
+        ''
+      );
+
 
     if(
       id==='home' ||
@@ -1068,10 +1358,69 @@ window.addEventListener(
       id==='settings' ||
       id==='control'
     ){
+
       showPage(id);
+
     }
+
   }
 );
+
+
+/* Beim Start richtige interne Seite laden */
+
+const initialPage =
+  location.hash.replace(
+    '#',
+    ''
+  );
+
+
+if(
+  initialPage==='more' ||
+  initialPage==='settings' ||
+  initialPage==='control'
+){
+
+  showPage(initialPage);
+
+}
+
+
+/*
+  WICHTIG:
+  Alle externen Links öffnen separat.
+  Dan Mini-PC bleibt im Hintergrund geöffnet.
+*/
+
+document
+  .querySelectorAll('a[href]')
+  .forEach(function(link){
+
+    const href =
+      link.getAttribute('href');
+
+
+    if(
+      href &&
+      !href.startsWith('#') &&
+      !link.classList.contains('internal')
+    ){
+
+      link.setAttribute(
+        'target',
+        '_blank'
+      );
+
+      link.setAttribute(
+        'rel',
+        'noopener'
+      );
+
+    }
+
+  });
+
 </script>
 
 </body>
