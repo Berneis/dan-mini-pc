@@ -2,43 +2,1077 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Dan Mini-PC">
+<meta name="theme-color" content="#070b14">
+
 <title>Dan Mini-PC</title>
+
 <style>
-:root{--bg:#090b10;--panel:#171b25;--panel2:#222837;--text:#f6f7fb;--muted:#aeb6c7;--accent:#6da8ff}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{min-height:100svh;padding:max(8px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:8px}
-header{height:54px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex:0 0 auto}
-.brand{font-size:24px;font-weight:800;letter-spacing:-.04em;white-space:nowrap}.sub{color:var(--muted);font-size:11px;margin-top:1px}.clock{text-align:right;white-space:nowrap}.time{font-size:25px;font-weight:750;line-height:1}.date{color:var(--muted);font-size:10px;margin-top:3px}
-main{min-height:0;flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:8px}
-.tile{min-width:0;min-height:0;border-radius:16px;background:linear-gradient(145deg,var(--panel2),var(--panel));color:var(--text);text-decoration:none;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(255,255,255,.09);box-shadow:0 5px 16px rgba(0,0,0,.2)}
-.tile:active{transform:scale(.98);border-color:var(--accent)}.icon{font-size:24px;line-height:1}.label{font-size:17px;font-weight:750;line-height:1.05}.hint{color:var(--muted);font-size:10px;margin-top:3px}
-footer{height:25px;display:flex;justify-content:center;align-items:center;flex:0 0 auto}.dock{color:var(--muted);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* iPhone 12 mini portrait fallback */
-@media (orientation:portrait){body{overflow:auto;padding:18px 16px}.sub{font-size:12px}header{height:auto;margin-bottom:6px}.brand{font-size:25px}.time{font-size:26px}main{grid-template-columns:repeat(2,1fr);grid-template-rows:none;grid-auto-rows:145px}.tile{padding:16px}.icon{font-size:30px}.label{font-size:20px}.hint{font-size:12px}footer{height:auto;padding:8px 0}.dock{white-space:normal;text-align:center;font-size:11px}}
+:root{
+  --bg:#070b14;
+  --panel:rgba(24,34,54,.78);
+  --panel2:rgba(42,57,86,.70);
+  --text:#f7f8fc;
+  --muted:#aeb7c8;
+  --accent:#6da8ff;
+  --radius:20px;
+  --tile-font:16px;
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{
+  min-height:100dvh;
+  overflow-x:hidden;
+}
+
+body.light{
+  --bg:#edf2f8;
+  --panel:rgba(255,255,255,.76);
+  --panel2:rgba(220,229,241,.78);
+  --text:#151922;
+  --muted:#667085;
+}
+
+body.compact{
+  --tile-font:14px;
+  --radius:15px;
+}
+
+body.large{
+  --tile-font:19px;
+  --radius:24px;
+}
+
+body.square{--radius:9px}
+body.round{--radius:28px}
+
+#app{
+  min-height:100dvh;
+  width:100%;
+  padding:
+    max(10px,env(safe-area-inset-top))
+    max(10px,env(safe-area-inset-right))
+    max(68px,calc(env(safe-area-inset-bottom) + 58px))
+    max(10px,env(safe-area-inset-left));
+
+  background:
+    radial-gradient(circle at 10% 0%,
+      color-mix(in srgb,var(--accent) 24%,transparent),
+      transparent 32%),
+    radial-gradient(circle at 92% 78%,
+      color-mix(in srgb,var(--accent) 12%,transparent),
+      transparent 38%),
+    var(--bg);
+}
+
+body.wall-black #app{
+  background:var(--bg);
+}
+
+body.wall-soft #app{
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb,var(--bg) 80%,var(--accent) 20%),
+      var(--bg) 55%,
+      color-mix(in srgb,var(--bg) 90%,var(--accent) 10%));
+}
+
+/* HEADER */
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:8px;
+}
+
+.brand{
+  font-size:24px;
+  font-weight:850;
+  letter-spacing:-.04em;
+}
+
+.clock{
+  text-align:right;
+  white-space:nowrap;
+}
+
+.time{
+  font-size:23px;
+  font-weight:800;
+  line-height:1;
+}
+
+.date{
+  margin-top:3px;
+  font-size:10px;
+  color:var(--muted);
+}
+
+/* GOOGLE SEARCH */
+
+.search{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:7px;
+  margin-bottom:10px;
+}
+
+.search input{
+  min-width:0;
+  padding:11px 13px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background:var(--panel);
+  color:var(--text);
+  font-size:14px;
+  outline:none;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+.search button{
+  padding:0 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background:var(--panel2);
+  color:var(--text);
+  font-weight:800;
+}
+
+/* PAGES */
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.pagehead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.pagehead h2{
+  margin:0;
+  font-size:25px;
+  letter-spacing:-.03em;
+}
+
+.back{
+  text-decoration:none;
+  color:var(--text);
+  background:var(--panel2);
+  border:1px solid rgba(255,255,255,.10);
+  padding:8px 11px;
+  border-radius:12px;
+  font-weight:750;
+}
+
+/* TILES */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+}
+
+.tile{
+  min-width:0;
+  min-height:105px;
+  padding:12px;
+  border-radius:var(--radius);
+  background:
+    linear-gradient(145deg,var(--panel2),var(--panel));
+  border:1px solid rgba(255,255,255,.11);
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  text-decoration:none;
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  backdrop-filter:blur(22px) saturate(135%);
+  -webkit-backdrop-filter:blur(22px) saturate(135%);
+  transition:.12s ease;
+  cursor:pointer;
+}
+
+.tile:active{
+  transform:scale(.96);
+  filter:brightness(1.1);
+}
+
+.icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb,var(--accent) 34%,transparent),
+      rgba(255,255,255,.04));
+  border:1px solid rgba(255,255,255,.10);
+}
+
+.label{
+  font-size:var(--tile-font);
+  line-height:1.05;
+  font-weight:800;
+}
+
+.hint{
+  margin-top:3px;
+  font-size:9px;
+  color:var(--muted);
+}
+
+/* SHP */
+
+.shp{
+  border-color:color-mix(in srgb,var(--accent) 48%,transparent);
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb,var(--accent) 22%,var(--panel2)),
+      var(--panel));
+}
+
+/* DOCK */
+
+.dock{
+  position:fixed;
+  left:50%;
+  bottom:max(8px,env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  z-index:100;
+
+  display:flex;
+  align-items:center;
+  gap:4px;
+
+  padding:5px 7px;
+  border-radius:19px;
+
+  background:rgba(30,42,64,.68);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 14px 36px rgba(0,0,0,.35);
+
+  backdrop-filter:blur(28px) saturate(160%);
+  -webkit-backdrop-filter:blur(28px) saturate(160%);
+}
+
+.dock a{
+  width:36px;
+  height:36px;
+  border-radius:11px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:white;
+  text-decoration:none;
+  font-size:18px;
+
+  background:rgba(255,255,255,.055);
+}
+
+.dock a:active{
+  transform:scale(.88);
+}
+
+/* SETTINGS */
+
+.panel{
+  padding:15px;
+  border-radius:20px;
+  background:var(--panel);
+  border:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+
+.setting{
+  padding:13px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.setting:last-child{
+  border-bottom:0;
+}
+
+.controls{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+
+.choice{
+  border:1px solid rgba(255,255,255,.11);
+  background:var(--panel2);
+  color:var(--text);
+  border-radius:11px;
+  padding:8px 11px;
+  font-weight:750;
+}
+
+.choice.active{
+  outline:2px solid var(--accent);
+}
+
+.color{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.30);
+}
+
+/* CONTROL CENTER */
+
+.controlgrid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.control{
+  padding:15px;
+  min-height:115px;
+  border-radius:22px;
+  background:var(--panel);
+  border:1px solid rgba(255,255,255,.11);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+}
+
+.control.wide{
+  grid-column:1/-1;
+  min-height:auto;
+}
+
+.control-title{
+  font-size:16px;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.control-text{
+  font-size:11px;
+  line-height:1.4;
+  color:var(--muted);
+}
+
+input[type="range"]{
+  width:100%;
+  margin-top:13px;
+  accent-color:var(--accent);
+}
+
+/* RESPONSIVE */
+
+@media (orientation:portrait){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .tile{
+    min-height:120px;
+  }
+
+  .controlgrid{
+    grid-template-columns:1fr;
+  }
+
+  .control.wide{
+    grid-column:auto;
+  }
+}
+
+@media (orientation:landscape) and (max-height:500px){
+  #app{
+    padding-top:max(5px,env(safe-area-inset-top));
+  }
+
+  .topbar{
+    margin-bottom:5px;
+  }
+
+  .brand{
+    font-size:20px;
+  }
+
+  .time{
+    font-size:20px;
+  }
+
+  .search input{
+    padding:8px 11px;
+  }
+
+  .grid{
+    grid-template-columns:repeat(4,1fr);
+    gap:7px;
+  }
+
+  .tile{
+    min-height:82px;
+    padding:9px;
+    border-radius:17px;
+  }
+
+  .icon{
+    width:33px;
+    height:33px;
+    font-size:17px;
+  }
+
+  .label{
+    font-size:13px;
+  }
+
+  .hint{
+    font-size:8px;
+  }
+}
 </style>
 </head>
+
 <body>
-<header>
- <div><div class="brand">Dan Mini-PC</div><div class="sub">iPhone 12 mini · HDMI Desktop</div></div>
- <div class="clock"><div class="time" id="time">--:--</div><div class="date" id="date"></div></div>
-</header>
-<main>
- <a class="tile" href="https://chatgpt.com/"><div class="icon">✦</div><div><div class="label">ChatGPT</div><div class="hint">Chat & Projekte</div></div></a>
- <a class="tile" href="https://m.youtube.com/?app=desktop" target="_blank" rel="noopener"><div class="icon">▶</div><div><div class="label">YouTube</div><div class="hint">Videos</div></div></a>
- <a class="tile" href="https://www.microsoft365.com/"><div class="icon">W</div><div><div class="label">Microsoft 365</div><div class="hint">Word & Office</div></div></a>
- <a class="tile" href="https://drive.google.com/"><div class="icon">△</div><div><div class="label">Google Drive</div><div class="hint">Dateien & Schule</div></div></a>
- <a class="tile" href="https://mail.google.com/"><div class="icon">✉</div><div><div class="label">Gmail</div><div class="hint">E-Mail</div></div></a>
- <a class="tile" href="https://www.google.com/"><div class="icon">⌕</div><div><div class="label">Google</div><div class="hint">Websuche</div></div></a>
-</main>
-<footer><div class="dock">Für das eingebaute Display: iPhone quer drehen</div></footer>
+
+<div id="app">
+
+<!-- STARTSEITE -->
+<section class="page active" id="home">
+
+  <div class="topbar">
+    <div class="brand">Dan Mini-PC</div>
+    <div class="clock">
+      <div class="time" id="time">--:--</div>
+      <div class="date" id="date"></div>
+    </div>
+  </div>
+
+  <form class="search"
+        action="https://www.google.com/search"
+        method="get">
+    <input name="q" placeholder="Google durchsuchen …">
+    <button type="submit">Suchen</button>
+  </form>
+
+  <div class="grid">
+
+    <a class="tile"
+       href="https://chatgpt.com/">
+      <div class="icon">✦</div>
+      <div>
+        <div class="label">ChatGPT</div>
+        <div class="hint">Chat & Projekte</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://m.youtube.com/?app=desktop">
+      <div class="icon">▶</div>
+      <div>
+        <div class="label">YouTube</div>
+        <div class="hint">Videos</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://www.microsoft365.com/">
+      <div class="icon">W</div>
+      <div>
+        <div class="label">Microsoft 365</div>
+        <div class="hint">Word & Office</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://drive.google.com/">
+      <div class="icon">△</div>
+      <div>
+        <div class="label">Google Drive</div>
+        <div class="hint">Dateien & Schule</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://outlook.office.com/mail/">
+      <div class="icon">📧</div>
+      <div>
+        <div class="label">Outlook</div>
+        <div class="hint">E-Mail</div>
+      </div>
+    </a>
+
+    <a class="tile shp"
+       href="https://script.google.com/macros/s/AKfycbz3dAi2l4XLcjGeOPDhcJxh5zmUONNB0zqQJCHi-LbgNQn6Bvb1RL3wwx7WzVRCkHXv/exec">
+      <div class="icon">🏫</div>
+      <div>
+        <div class="label">SHP Cockpit</div>
+        <div class="hint">Gartenstrasse</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="#settings"
+       onclick="showPage('settings')">
+      <div class="icon">⚙</div>
+      <div>
+        <div class="label">Einstellungen</div>
+        <div class="hint">Design & Anzeige</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="#more"
+       onclick="showPage('more')">
+      <div class="icon">•••</div>
+      <div>
+        <div class="label">Mehr …</div>
+        <div class="hint">Weitere Apps</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- MEHR -->
+<section class="page" id="more">
+
+  <div class="pagehead">
+    <h2>Mehr</h2>
+    <a class="back"
+       href="#home"
+       onclick="showPage('home')">⌂ Home</a>
+  </div>
+
+  <div class="grid">
+
+    <a class="tile"
+       href="https://docs.arduino.cc/">
+      <div class="icon">🔧</div>
+      <div>
+        <div class="label">MINT / ESP32</div>
+        <div class="hint">Arduino</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://maps.google.com/">
+      <div class="icon">🗺</div>
+      <div>
+        <div class="label">Maps</div>
+        <div class="hint">Karten</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://www.meteoschweiz.admin.ch/">
+      <div class="icon">🌤</div>
+      <div>
+        <div class="label">Wetter</div>
+        <div class="hint">MeteoSchweiz</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://open.spotify.com/">
+      <div class="icon">🎧</div>
+      <div>
+        <div class="label">Spotify</div>
+        <div class="hint">Musik</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://www.srf.ch/play">
+      <div class="icon">📺</div>
+      <div>
+        <div class="label">SRF</div>
+        <div class="hint">TV & Radio</div>
+      </div>
+    </a>
+
+    <a class="tile"
+       href="https://cad.onshape.com/">
+      <div class="icon">🧊</div>
+      <div>
+        <div class="label">Onshape</div>
+        <div class="hint">CAD</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- EINSTELLUNGEN -->
+<section class="page" id="settings">
+
+  <div class="pagehead">
+    <h2>Einstellungen</h2>
+    <a class="back"
+       href="#home"
+       onclick="showPage('home')">⌂ Home</a>
+  </div>
+
+  <div class="panel">
+
+    <div class="setting">
+      <strong>🌙 Design</strong>
+      <div class="controls">
+        <button class="choice"
+                onclick="setTheme('dark',this)">
+          Dunkel
+        </button>
+
+        <button class="choice"
+                onclick="setTheme('light',this)">
+          Hell
+        </button>
+      </div>
+    </div>
+
+    <div class="setting">
+      <strong>🎨 Akzentfarbe</strong>
+      <div class="controls">
+
+        <button class="color"
+                style="background:#6da8ff"
+                onclick="setAccent('#6da8ff')">
+        </button>
+
+        <button class="color"
+                style="background:#59d98e"
+                onclick="setAccent('#59d98e')">
+        </button>
+
+        <button class="color"
+                style="background:#ffad5c"
+                onclick="setAccent('#ffad5c')">
+        </button>
+
+        <button class="color"
+                style="background:#b78cff"
+                onclick="setAccent('#b78cff')">
+        </button>
+
+      </div>
+    </div>
+
+    <div class="setting">
+      <strong>▦ Kachelgröße</strong>
+      <div class="controls">
+
+        <button class="choice"
+                onclick="setSize('compact')">
+          Klein
+        </button>
+
+        <button class="choice"
+                onclick="setSize('normal')">
+          Normal
+        </button>
+
+        <button class="choice"
+                onclick="setSize('large')">
+          Groß
+        </button>
+
+      </div>
+    </div>
+
+    <div class="setting">
+      <strong>▢ Kachelecken</strong>
+      <div class="controls">
+
+        <button class="choice"
+                onclick="setShape('square')">
+          Eckig
+        </button>
+
+        <button class="choice"
+                onclick="setShape('normal')">
+          Normal
+        </button>
+
+        <button class="choice"
+                onclick="setShape('round')">
+          Rund
+        </button>
+
+      </div>
+    </div>
+
+    <div class="setting">
+      <strong>🖼 Hintergrund</strong>
+      <div class="controls">
+
+        <button class="choice"
+                onclick="setWall('black')">
+          Schwarz
+        </button>
+
+        <button class="choice"
+                onclick="setWall('glow')">
+          Glow
+        </button>
+
+        <button class="choice"
+                onclick="setWall('soft')">
+          Verlauf
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- KONTROLLZENTRUM -->
+<section class="page" id="control">
+
+  <div class="pagehead">
+    <h2>Kontrollzentrum</h2>
+    <a class="back"
+       href="#home"
+       onclick="showPage('home')">⌂ Home</a>
+  </div>
+
+  <div class="controlgrid">
+
+    <div class="control wide">
+      <div class="control-title">☀️ Oberfläche</div>
+
+      <div class="control-text">
+        Helligkeit der Mini-PC-Oberfläche
+      </div>
+
+      <input id="brightness"
+             type="range"
+             min="45"
+             max="115"
+             value="100">
+    </div>
+
+    <div class="control">
+      <div class="control-title">🔊 Lautstärke</div>
+
+      <div class="control-text">
+        Die Systemlautstärke wird über die
+        iPhone-Lautstärketasten geregelt.
+      </div>
+    </div>
+
+    <div class="control">
+      <div class="control-title">📱 Displayhelligkeit</div>
+
+      <div class="control-text">
+        Die echte iPhone-Helligkeit wird weiterhin
+        über das iOS-Kontrollzentrum geregelt.
+      </div>
+    </div>
+
+    <div class="control">
+      <div class="control-title">🌓 Darstellung</div>
+
+      <div class="controls">
+        <button class="choice"
+                onclick="setTheme('dark')">
+          Dunkel
+        </button>
+
+        <button class="choice"
+                onclick="setTheme('light')">
+          Hell
+        </button>
+      </div>
+    </div>
+
+    <div class="control">
+      <div class="control-title">🎨 Farbe</div>
+
+      <div class="controls">
+        <button class="color"
+                style="background:#6da8ff"
+                onclick="setAccent('#6da8ff')">
+        </button>
+
+        <button class="color"
+                style="background:#59d98e"
+                onclick="setAccent('#59d98e')">
+        </button>
+
+        <button class="color"
+                style="background:#b78cff"
+                onclick="setAccent('#b78cff')">
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+
+<!-- DOCK -->
+<nav class="dock">
+
+  <a href="https://www.icloud.com/"
+     title="Dateien">📁</a>
+
+  <a href="https://www.icloud.com/notes/"
+     title="Notizen">📝</a>
+
+  <a href="https://outlook.office.com/calendar/"
+     title="Outlook Kalender">🗓</a>
+
+  <a href="https://radio.garden/"
+     title="Radio">📻</a>
+
+  <a href="https://makerworld.com/"
+     title="3D-Druck">🖨</a>
+
+  <a href="#control"
+     title="Kontrollzentrum"
+     onclick="showPage('control')">🎛</a>
+
+</nav>
+
 <script>
-function tick(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'});document.getElementById('date').textContent=d.toLocaleDateString('de-CH',{weekday:'short',day:'2-digit',month:'2-digit'});}tick();setInterval(tick,1000);
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.remove('active');
+  });
+
+  const page=document.getElementById(id);
+
+  if(page){
+    page.classList.add('active');
+    window.scrollTo(0,0);
+  }
+}
+
+function clock(){
+  const d=new Date();
+
+  document.getElementById('time').textContent=
+    d.toLocaleTimeString(
+      'de-CH',
+      {hour:'2-digit',minute:'2-digit'}
+    );
+
+  document.getElementById('date').textContent=
+    d.toLocaleDateString(
+      'de-CH',
+      {
+        weekday:'short',
+        day:'2-digit',
+        month:'2-digit'
+      }
+    );
+}
+
+clock();
+setInterval(clock,1000);
+
+function setTheme(theme){
+  document.body.classList.toggle(
+    'light',
+    theme==='light'
+  );
+
+  localStorage.setItem(
+    'dan-theme',
+    theme
+  );
+}
+
+function setAccent(color){
+  document.documentElement.style.setProperty(
+    '--accent',
+    color
+  );
+
+  localStorage.setItem(
+    'dan-accent',
+    color
+  );
+}
+
+function setSize(size){
+  document.body.classList.remove(
+    'compact',
+    'large'
+  );
+
+  if(size==='compact'){
+    document.body.classList.add('compact');
+  }
+
+  if(size==='large'){
+    document.body.classList.add('large');
+  }
+
+  localStorage.setItem(
+    'dan-size',
+    size
+  );
+}
+
+function setShape(shape){
+  document.body.classList.remove(
+    'square',
+    'round'
+  );
+
+  if(shape==='square'){
+    document.body.classList.add('square');
+  }
+
+  if(shape==='round'){
+    document.body.classList.add('round');
+  }
+
+  localStorage.setItem(
+    'dan-shape',
+    shape
+  );
+}
+
+function setWall(wall){
+  document.body.classList.remove(
+    'wall-black',
+    'wall-soft'
+  );
+
+  if(wall==='black'){
+    document.body.classList.add('wall-black');
+  }
+
+  if(wall==='soft'){
+    document.body.classList.add('wall-soft');
+  }
+
+  localStorage.setItem(
+    'dan-wall',
+    wall
+  );
+}
+
+const brightness=
+  document.getElementById('brightness');
+
+brightness.addEventListener(
+  'input',
+  function(){
+
+    const value=
+      Number(this.value)/100;
+
+    document.getElementById('app')
+      .style.filter=
+      'brightness('+value+')';
+
+    localStorage.setItem(
+      'dan-brightness',
+      this.value
+    );
+  }
+);
+
+/* gespeicherte Einstellungen laden */
+
+setTheme(
+  localStorage.getItem('dan-theme')
+  ||'dark'
+);
+
+setAccent(
+  localStorage.getItem('dan-accent')
+  ||'#6da8ff'
+);
+
+setSize(
+  localStorage.getItem('dan-size')
+  ||'normal'
+);
+
+setShape(
+  localStorage.getItem('dan-shape')
+  ||'normal'
+);
+
+setWall(
+  localStorage.getItem('dan-wall')
+  ||'glow'
+);
+
+const savedBrightness=
+  localStorage.getItem('dan-brightness');
+
+if(savedBrightness){
+  brightness.value=savedBrightness;
+
+  document.getElementById('app')
+    .style.filter=
+    'brightness('+
+    (Number(savedBrightness)/100)
+    +')';
+}
+
+/* interne #Links */
+
+window.addEventListener(
+  'hashchange',
+  function(){
+
+    const id=
+      location.hash.replace('#','');
+
+    if(
+      id==='home' ||
+      id==='more' ||
+      id==='settings' ||
+      id==='control'
+    ){
+      showPage(id);
+    }
+  }
+);
 </script>
+
 </body>
 </html>
